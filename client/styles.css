@@ -1,0 +1,9 @@
+.rect {
+  fill: #c0ffee;
+  transition: all 0.5s ease-in;
+}
+
+.rect:hover {
+  fill: red;
+  transform-origin: center;
+}
