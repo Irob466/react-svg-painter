@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import Rect from "./rect";
+import { useSelector, useDispatch } from "react-redux";
+import DynamicComponent from "./dynamicComponent";
+import DynamicGroup from "./dynamicGroup";
+import { createItem } from "../Store/canvas";
 import { getMouseLocation } from "../helpers";
 
 export const Home = props => {
-  const [clicks, setClicks] = useState([]);
+  const dispatch = useDispatch();
+  const canvas = useSelector(({ canvas }) => canvas);
   // const [newPoint, setNewPoint] = useState({});
 
   // const _onMouseDown = ({ clientX, clientY, ...e }) => {
@@ -15,19 +19,27 @@ export const Home = props => {
 
   const _onClick = ({ clientX, clientY, ...e }) => {
     const target = e.target;
-    const { x: origX, y: origY } = getMouseLocation(clientX, clientY, target);
-    setClicks([...clicks, { origX, origY, moving: true }]);
+    const { x, y } = getMouseLocation(clientX, clientY, target);
+    dispatch(
+      createItem({
+        id: `${x}.${y}`,
+        component: "rect",
+        selected: false,
+        x,
+        y
+      })
+    );
   };
 
   return (
     <svg
-      width="100vw"
-      height="100vh"
+      width="100%"
+      height="100%"
       // onMouseDown={_onMouseDown}
       onClick={_onClick}
     >
-      {clicks.map(c => (
-        <Rect key={`${c.origX}${c.origY}`} {...c} />
+      {canvas.map(c => (
+        <DynamicComponent key={c.id} {...c} />
       ))}
     </svg>
   );

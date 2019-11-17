@@ -1,9 +1,26 @@
-.rect {
+@keyframes selected {
+  0% {
+    filter: drop-shadow(0px 0px 2px yellow);
+  }
+  100% {
+    filter: drop-shadow(0px 0px 10px yellow);
+  }
+}
+#app {
+  height: 100vh;
+  width: 100vw;
+}
+
+rect {
   fill: #c0ffee;
   transition: all 0.5s ease-in;
 }
 
-.rect:hover {
+rect:hover {
   fill: red;
   transform-origin: center;
+}
+
+.selected {
+  animation: 1s ease-in-out infinite alternate selected;
 }
