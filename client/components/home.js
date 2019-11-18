@@ -1,13 +1,17 @@
 import React from "react";
-import { Grid, Rail, Segment } from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react";
 import Canvas from "./canvas";
+import CompList from "./compList";
 
 export const Home = props => (
-  <Grid style={{ height: "100vh", width: "100vw" }} centered columns={2}>
-    <Grid.Column stretched width={14}>
-      <Segment style={{ height: "100%" }}>
+  <Grid style={{ margin: 0 }} columns={2}>
+    <Grid.Column width={13}>
+      <Segment style={{ height: "100%", margin: 0, padding: 0 }}>
         <Canvas />
       </Segment>
+    </Grid.Column>
+    <Grid.Column width={3}>
+      <CompList />
     </Grid.Column>
   </Grid>
 );
