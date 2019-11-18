@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { Grid, Segment } from "semantic-ui-react";
+import { Grid, List, Icon, Segment } from "semantic-ui-react";
 
 export const CompList = props => {
   const canvas = useSelector(({ canvas }) => canvas);
@@ -16,11 +16,18 @@ export const CompList = props => {
           }}
         >
           <h2>Components</h2>
-          {canvas.map(c => (
-            <div key={c.id}>
-              {c.x}, {c.y}, Selected: {c.selected ? "true" : "false"}
-            </div>
-          ))}
+          <List divided size="big">
+            {canvas.map(c => (
+              <List.Item key={c.id}>
+                <Icon name={c.selected ? "square" : "square outline"} />
+                <List.Content>
+                  <List.Header>
+                    {c.x}, {c.y}
+                  </List.Header>
+                </List.Content>
+              </List.Item>
+            ))}
+          </List>
         </Segment>
       </Grid.Row>
       <Grid.Row style={{ height: "48vh" }}>
