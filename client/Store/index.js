@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { createLogger } from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension";
 import canvas from "./canvas";
+import events from "./events";
 // import axios from "axios";
 // import thunk from "redux-thunk";
 
@@ -14,7 +15,7 @@ if (process.browser) {
   middlewares = [...middlewares, createLogger({ collapsed: true })];
 }
 
-const reducer = combineReducers({ canvas });
+const reducer = combineReducers({ canvas, events });
 
 const store = createStore(
   reducer,

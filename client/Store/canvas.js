@@ -1,10 +1,17 @@
 const initialState = [];
 
-const [CREATE_ITEM, MOVE_ITEM, DELETE_ITEM, SELECT_ITEM] = [
+const [
+  CREATE_ITEM,
+  MOVE_SELECTED,
+  DELETE_SELECTED,
+  SELECT_ITEM,
+  CALCULATE_OFFSETS
+] = [
   "CREATE_ITEM",
-  "MOVE_ITEM",
-  "DELETE_ITEM",
-  "SELECT_ITEM"
+  "MOVE_SELECTED",
+  "DELETE_SELECTED",
+  "SELECT_ITEM",
+  "CALCULATE_OFFSETS"
 ];
 
 export const createItem = item => ({
@@ -12,15 +19,22 @@ export const createItem = item => ({
   item
 });
 
-export const moveItem = offset => ({
-  type: MOVE_ITEM,
-  offset
+export const moveSelected = (clientX, clientY) => ({
+  type: MOVE_SELECTED,
+  clientX,
+  clientY
 });
 
-export const deleteItem = () => ({
+export const calculateOffsets = (clientX, clientY) => ({
+  type: CALCULATE_OFFSETS,
+  clientX,
+  clientY
+});
+
+export const deleteSelected = () => ({
   // can potentially delete multiple items?
   // will filter to selected items for now
-  type: DELETE_ITEM
+  type: DELETE_SELECTED
 });
 
 export const selectItem = (id, selected) => ({
@@ -42,18 +56,25 @@ export default (state = initialState, action) => {
             }
           : s
       );
-    case MOVE_ITEM:
-      return [
-        ...state,
-        ...state
-          .filter(s => s.selected)
-          .map(s => ({
+    case MOVE_SELECTED:
+      return state.map(s => {
+        if (!s.selected) {
+          return s;
+        } else {
+          return {
             ...s,
-            x: s.x + action.offset.x,
-            y: s.y + action.offset.y
-          }))
-      ];
-    case DELETE_ITEM:
+            x: action.clientX + s.offsetX,
+            y: action.clientY + s.offsetY
+          };
+        }
+      });
+    case CALCULATE_OFFSETS:
+      return state.map(s => ({
+        ...s,
+        offsetX: s.x - action.clientX,
+        offsetY: s.y - action.clientY
+      }));
+    case DELETE_SELECTED:
       return state.filter(s => !s.selected);
     default:
       return state;

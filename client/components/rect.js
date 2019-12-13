@@ -9,6 +9,7 @@ export const Rect = ({ id, x, y, selected, width = 100, height = 100 }) => {
   const _onClick = e => {
     e.stopPropagation();
     dispatch(selectItem(id, !selected));
+    console.log(e.target.getBoundingClientRect());
   };
   return (
     <rect
